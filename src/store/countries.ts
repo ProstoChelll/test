@@ -1,13 +1,7 @@
 import { defineStore } from "pinia";
 
 interface Iproduct {
-  filters: {
-    iso_3166_1_a2: string;
-  };
-  paginate: {
-    page: number;
-    pp_items: number;
-  };
+  name: string;
   id: number;
 }
 interface Idata {

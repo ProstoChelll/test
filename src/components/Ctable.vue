@@ -7,7 +7,11 @@ let countries = useCountries();
 let filter = ref("");
 
 function findAndDownloadData() {
-  return getFilterData(filter.value);
+  let lastId = 0;
+  if (!(countries.data.length == 0)) {
+    lastId = countries.data[countries.data.length - 1].id;
+  }
+  return getFilterData(filter.value, lastId);
 }
 function writeDataInStore() {
   countries.data.push(...findAndDownloadData());
@@ -22,7 +26,7 @@ function writeDataInStore() {
       <button @click="writeDataInStore()">начать загрузку</button>
       <p>
         Чтобы получить все данные конкретной страны<br />введите код страны в поле сверху. <br />Чтобы получить все данные всех
-        стран ничего не вводите
+        стран ничего не вводите<br />Пример:<br />RU { "name": "Russia", "id": 0 }
       </p>
     </div>
     <div class="data__preview">
@@ -34,7 +38,7 @@ function writeDataInStore() {
 
 <style scoped>
 .ctable {
-  width: 558px;
+  width: 540px;
   border: 2px outset rgb(85, 170, 90);
   padding: 10px 60px 60px 10px;
 }
@@ -57,8 +61,8 @@ function writeDataInStore() {
   animation-delay: 10.5s;
 }
 .data__preview {
-  width: 581px;
-  height: 175px;
+  width: 600px;
+  height: 222px;
   border: 2px outset rgb(85, 170, 90);
   padding: 10px 60px 60px 10px;
   overflow: hidden;

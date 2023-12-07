@@ -12,7 +12,7 @@ let allData = {
     },
     {
       filters: {
-        iso_3166_1_a2: "RU",
+        iso_3166_1_a2: "AU",
       },
       paginate: {
         page: 3,
@@ -32,7 +32,7 @@ let allData = {
     },
     {
       filters: {
-        iso_3166_1_a2: "JA",
+        iso_3166_1_a2: "KZ",
       },
       paginate: {
         page: 3,
@@ -42,7 +42,7 @@ let allData = {
     },
     {
       filters: {
-        iso_3166_1_a2: "GR",
+        iso_3166_1_a2: "CN",
       },
       paginate: {
         page: 1,
@@ -66,18 +66,62 @@ let allData = {
 function getAllData() {
   let chosenData = [];
   for (let i = 0; i < allData.data.length; i++) {
-    chosenData.push(allData.data[i]);
+    let fullCoutryName = "";
+    switch (allData.data[i].filters.iso_3166_1_a2) {
+      case "RU":
+        fullCoutryName = "Russia";
+        break;
+      case "AU":
+        fullCoutryName = "Australia";
+        break;
+      case "JA":
+        fullCoutryName = "Japan";
+        break;
+      case "KZ":
+        fullCoutryName = "Kazakhstan";
+        break;
+      case "CN":
+        fullCoutryName = "China";
+        break;
+      case "GR":
+        fullCoutryName = "Greece";
+        break;
+    }
+    chosenData.push({ name: fullCoutryName, id: allData.data[i].id });
   }
   return chosenData;
 }
 
-function getFilterData(filter: string) {
+function getFilterData(filter: string, id: number) {
   let chosenData = [];
+  let idNumber = id + 1;
   for (let i = 0; i < allData.data.length; i++) {
+    let fullCoutryName = "";
+    switch (allData.data[i].filters.iso_3166_1_a2) {
+      case "RU":
+        fullCoutryName = "Russia";
+        break;
+      case "AU":
+        fullCoutryName = "Australia";
+        break;
+      case "JA":
+        fullCoutryName = "Japan";
+        break;
+      case "KZ":
+        fullCoutryName = "Kazakhstan";
+        break;
+      case "CN":
+        fullCoutryName = "China";
+        break;
+      case "GR":
+        fullCoutryName = "Greece";
+        break;
+    }
     if (allData.data[i].filters.iso_3166_1_a2 == filter) {
-      chosenData.push(allData.data[i]);
+      chosenData.push({ name: fullCoutryName, id: idNumber });
     } else if (filter == "") {
-      chosenData.push(allData.data[i]);
+      chosenData.push({ name: fullCoutryName, id: idNumber });
+      idNumber++;
     }
   }
   return chosenData;

@@ -4,13 +4,7 @@ import { useCountries } from "../store/countries";
 import { Ref, ref } from "vue";
 
 interface Iproduct {
-  filters: {
-    iso_3166_1_a2: string;
-  };
-  paginate: {
-    page: number;
-    pp_items: number;
-  };
+  name: string;
   id: number;
 }
 
@@ -18,18 +12,24 @@ let countrysData: Ref<Iproduct[]> = ref([]);
 
 let countries = useCountries();
 const route = useRoute();
-const countryName = String(route.params.id.slice(1, 3));
+const countryName = ref(String(route.params.id.slice(1)));
 
 let error = ref(false);
 
 for (let i = 0; i < countries.data.length; i++) {
-  if (countries.data[i].filters.iso_3166_1_a2 == countryName) {
+  let index = countries.data[i].name.indexOf(countryName.value);
+  if (index != -1) {
     countrysData.value.push(countries.data[i]);
   }
 }
 
 if (countrysData.value.length == 0) {
   error.value = true;
+}
+function deleteCountry(item: Iproduct) {
+  countries.deleteCountry(item.id);
+  const updatedData = countrysData.value.filter((country) => country.id !== item.id);
+  countrysData.value = updatedData;
 }
 </script>
 
@@ -39,9 +39,9 @@ if (countrysData.value.length == 0) {
     <p class="back">назад</p>
   </router-link>
   <div v-if="!error">
-    <p class="countrys" v-for="item in countrysData">
+    <p class="countrys" v-for="item in countrysData" :key="item.id">
       {{ item }}
-      <button @click="countries.deleteCountry(item.id)">удалить</button>
+      <button @click="deleteCountry(item)">удалить</button>
     </p>
   </div>
 

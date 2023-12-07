@@ -6,9 +6,10 @@ import { getAllData } from "../server/getData";
 let countries = useCountries();
 
 if (countries.isAllDownload == false) {
-  countries.data.push(...getAllData());
-  countries.isAllDownload = true;
+  const allData = getAllData();
+  countries.data.push(...allData);
 }
+countries.isAllDownload = true;
 </script>
 
 <template>
